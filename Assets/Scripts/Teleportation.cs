@@ -8,6 +8,7 @@ public class Teleportation : MonoBehaviour
 
     GameObject player;
     [SerializeField] private Vector3 destinationPos;
+    
 
     private void Awake()
     {
@@ -23,12 +24,20 @@ public class Teleportation : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            player.GetComponent<MovePlayer>().enabled= false;
             teleportation();
         }
     }
     void teleportation()
     {
         player.transform.position = destinationPos;
+        StartCoroutine(waitTeleport());
+    }
+    IEnumerator waitTeleport()
+    {
+        yield return new WaitForSeconds(0.1f);
+        player.GetComponent<MovePlayer>().enabled= true;
+
     }
 
 

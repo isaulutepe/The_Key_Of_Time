@@ -19,11 +19,13 @@ public class MovePlayer : MonoBehaviour
     private void Awake()
     {
         rg = GetComponent<Rigidbody>();
+       
         rg.drag = 1; //Yerçekimini simile etmek için gerçekçi düþüþ vermek için.
 
     }
     private void FixedUpdate()
     {
+        movePlayer();
         if (jump)
         {
             Debug.Log("Sýplanýyor.");
@@ -43,7 +45,7 @@ public class MovePlayer : MonoBehaviour
             animator.SetBool("isMoving", true);
         }
 
-        movePlayer();
+      
         if (Input.GetKey(KeyCode.Space) && isGround == true)
         {
 
@@ -68,6 +70,7 @@ public class MovePlayer : MonoBehaviour
 
         if (movement != Vector3.zero) // hareket varsa
         {
+           // this.GetComponent<CapsuleCollider>().radius = 0.44f;
             transform.rotation = Quaternion.LookRotation(movement); // karakteri hareket yönüne döndür
             isMove = true;
         }
