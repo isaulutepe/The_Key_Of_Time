@@ -4,28 +4,20 @@ using UnityEngine;
 
 public class CreateTeleport : MonoBehaviour
 {
-
-    private Rigidbody rg;
     [SerializeField] private GameObject teleportPrefab;
-    [SerializeField] private Vector3 distance;
+    [SerializeField] private float distance;
     [SerializeField] private float closeTime = 2f;
     bool activeTeleport = false; //Aktif teleport yok.
 
-    private void Awake()
-    {
-        distance = new Vector3(transform.position.x + 1, transform.position.y + 1, transform.position.z + 1);
-        rg = GetComponent<Rigidbody>();
-    }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && !activeTeleport) //Teleport Oluþtur. Ayný anda bir tane.
+        if (Input.GetKeyDown(KeyCode.Q) && !activeTeleport) //Teleport Oluþtur. Ayný anda bir tane.
         {
             createTeleport();
             activeTeleport = true; // Teleport aktif.
             StartCoroutine(CloseTeleport());
         }
     }
-
     IEnumerator CloseTeleport()
     {
         yield return new WaitForSeconds(closeTime);
@@ -40,9 +32,10 @@ public class CreateTeleport : MonoBehaviour
             Destroy(teleport);
         }
     }
-    void createTeleport()
+    void createTeleport() //Karakterin baktýðýo yönde nesneyi oluþtur.
     {
-        Instantiate(teleportPrefab, rg.transform.position - distance, Quaternion.identity);
+        Vector3 spawnPosition = transform.position + transform.forward * distance;
+        Instantiate(teleportPrefab, spawnPosition, Quaternion.identity);
     }
 }
 
