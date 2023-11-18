@@ -7,7 +7,6 @@ TagManager:
   - teleport
   - Ground
   - item
-  - BackToMenu
   layers:
   - Default
   - TransparentFX
