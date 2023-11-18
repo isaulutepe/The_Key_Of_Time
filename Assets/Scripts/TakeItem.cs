@@ -40,10 +40,16 @@ public class TakeItem : MonoBehaviour
             currentItem = other.gameObject; //Colldier alanýnda oldugumuz obje.
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("item"))
+        {
+            other.transform.GetChild(0).gameObject.SetActive(false);
+        }
+    }
     void takeItems()
     {
         items.Add(currentItem);
-        // Destroy(currentItem); //Toplanan nesneyi oyun alanýdan kaldýrdýk. Verimsiz.
         currentItem.SetActive(false);
         currentItem = null;
         takeItem = false;
