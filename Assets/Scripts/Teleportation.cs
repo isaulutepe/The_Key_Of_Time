@@ -61,7 +61,7 @@ public class Teleportation : MonoBehaviour
     }
     IEnumerator waitTeleport()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(AppearMaterial());
         player.GetComponent<MovePlayer>().enabled = true;
 
