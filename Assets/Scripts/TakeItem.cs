@@ -2,25 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Timeline.Actions.MenuPriority;
 
 public class TakeItem : MonoBehaviour
 {
 
     public List<GameObject> items = new List<GameObject>(); //Ýtem listesi alýnanlar buraya eklenecek.
-    public GameObject[] itemsObject;
-    private GameObject currentItem = null;
+    public GameObject currentItem = null;
     private bool takeItem = false;
+    private Invantory invantory;
 
     private void Awake()
     {
-        itemsObject = GameObject.FindGameObjectsWithTag("item");
-    }
-    private void Start()
-    {
-        for (int i = 0; i < itemsObject.Length; i++)
-        {
-            //Ýtemlar çocuk nesne olarak eklenecekler.
-        }
+        invantory=GameObject.Find("Player").GetComponent<Invantory>();
     }
     private void Update()
     {
@@ -34,7 +28,6 @@ public class TakeItem : MonoBehaviour
         // E butonu Görülecek. collider içine girince
         if (other.gameObject.CompareTag("item"))
         {
-            Debug.Log("E ile al");
             other.transform.GetChild(0).gameObject.SetActive(true);
             takeItem = true;
             currentItem = other.gameObject; //Colldier alanýnda oldugumuz obje.
@@ -50,6 +43,7 @@ public class TakeItem : MonoBehaviour
     void takeItems()
     {
         items.Add(currentItem);
+        invantory.AddItem();
         currentItem.SetActive(false);
         currentItem = null;
         takeItem = false;

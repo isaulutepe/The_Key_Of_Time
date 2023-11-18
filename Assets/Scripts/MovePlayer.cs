@@ -15,13 +15,11 @@ public class MovePlayer : MonoBehaviour
     private bool isGround = true; //Karekter yerde.
     public bool isMove = false;
     [SerializeField] private Animator animator;
-
+    public Camera mainCamera;
     private void Awake()
     {
         rg = GetComponent<Rigidbody>();
-
         rg.drag = 1; //Yerçekimini simile etmek için gerçekçi düþüþ vermek için.
-
     }
     private void FixedUpdate()
     {
@@ -67,21 +65,23 @@ public class MovePlayer : MonoBehaviour
     }
     private void movePlayer()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        movement = new Vector3(horizontalInput, 0f, verticalInput);
-        rg.MovePosition(rg.position + movement * speed * Time.deltaTime);
+        Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        moveDirection = mainCamera.transform.TransformDirection(moveDirection);
+        moveDirection.y = 0; // Y eksenindeki hareketi sýfýrla
 
-        if (movement != Vector3.zero) // hareket varsa
+        rg.MovePosition(rg.position + moveDirection * speed * Time.deltaTime);
+
+        if (moveDirection != Vector3.zero) // hareket varsa
         {
-            // this.GetComponent<CapsuleCollider>().radius = 0.44f;
-            transform.rotation = Quaternion.LookRotation(movement); // karakteri hareket yönüne döndür
+            Quaternion rotation = Quaternion.LookRotation(moveDirection); // karakteri hareket yönüne döndür
+            rotation.x = 0; // X ekseni etrafýnda dönüþü sýfýrla
+            rotation.z = 0; // Z ekseni etrafýnda dönüþü sýfýrla
+            transform.rotation = rotation;
             isMove = true;
         }
-        if (movement == Vector3.zero)
+        if (moveDirection == Vector3.zero)
         {
             isMove = false;
         }
-
     }
 }

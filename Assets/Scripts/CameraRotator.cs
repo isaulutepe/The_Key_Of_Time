@@ -12,7 +12,7 @@ public class CameraRotator : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             rotX += -Input.GetAxis("Mouse Y") * mouseRotateSpeed; // X ekseni etrafýnda dönüþ
             rotY += Input.GetAxis("Mouse X") * mouseRotateSpeed; // Y ekseni etrafýnda dönüþ
