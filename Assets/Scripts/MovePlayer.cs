@@ -13,7 +13,7 @@ public class MovePlayer : MonoBehaviour
     private Vector3 movement;
     private bool jump = false;
     private bool isGround = true; //Karekter yerde.
-    private bool isMove = false;
+    public bool isMove = false;
     [SerializeField] private Animator animator;
 
     private void Awake()
@@ -28,7 +28,7 @@ public class MovePlayer : MonoBehaviour
         movePlayer();
         if (jump)
         {
-            Debug.Log("Sýplanýyor.");
+            Debug.Log("Zýplanýyor.");
             rg.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             jump = false;
         }
