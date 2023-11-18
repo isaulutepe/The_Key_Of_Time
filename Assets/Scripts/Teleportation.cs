@@ -8,9 +8,7 @@ public class Teleportation : MonoBehaviour
 
     GameObject player;
     [SerializeField] private Vector3 destinationPos;
-    bool finishedShader = false;
     float dissolveAmount = 0;
-
 
     private void Awake()
     {
@@ -33,6 +31,7 @@ public class Teleportation : MonoBehaviour
     }
     void teleportation()
     {
+        player.transform.GetChild(0).GetComponent<Animator>().SetBool("isMoving", false);
         StartCoroutine(DissolveMaterial()); //Shader çaðýr
         StartCoroutine(goTeleport()); //Bekle ve isinla
         StartCoroutine(waitTeleport()); //Telepor kapat.
@@ -51,9 +50,19 @@ public class Teleportation : MonoBehaviour
             yield return null;
         }
     }
+    IEnumerator AppearMaterial()
+    {
+        while (dissolveAmount > 0)
+        {
+            dissolveAmount = 0;// Bu deðeri ayarlayarak görünme hýzýný kontrol edebilirsiniz.
+            player.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetFloat("_DissolveAmount", dissolveAmount);
+            yield return null;
+        }
+    }
     IEnumerator waitTeleport()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
+        StartCoroutine(AppearMaterial());
         player.GetComponent<MovePlayer>().enabled = true;
 
     }
