@@ -1,22 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class CreateTeleport : MonoBehaviour
 {
-    [SerializeField] private GameObject teleportPrefab;
+    [SerializeField] private List<GameObject> teleportPrefabs;
     [SerializeField] private float distance;
     [SerializeField] private float closeTime = 2f;
     bool activeTeleport = false; //Aktif teleport yok.
+    bool a = true;
+
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q) && !activeTeleport) //Teleport Oluþtur. Ayný anda bir tane.
         {
-            createTeleport();
-            activeTeleport = true; // Teleport aktif.
-            StartCoroutine(CloseTeleport());
+            if (a)
+            {
+                createTeleport();
+                activeTeleport = true; // Teleport aktif.
+                StartCoroutine(CloseTeleport());
+            }
+            else
+            {
+                createTeleport2();
+                activeTeleport = true; // Teleport aktif.
+                StartCoroutine(CloseTeleport());
+            } 
         }
     }
     IEnumerator CloseTeleport()
@@ -24,6 +36,8 @@ public class CreateTeleport : MonoBehaviour
         yield return new WaitForSeconds(closeTime);
         DestroyTeleport();
         activeTeleport = false;
+        a = !a;
+
     }
     void DestroyTeleport()
     {
@@ -36,7 +50,12 @@ public class CreateTeleport : MonoBehaviour
     void createTeleport() //Karakterin baktýðýo yönde nesneyi oluþtur.
     {
         Vector3 spawnPosition = transform.position + transform.forward * distance;
-        Instantiate(teleportPrefab, spawnPosition, Quaternion.identity);
+        Instantiate(teleportPrefabs[0], spawnPosition, Quaternion.identity);
+    }
+    void createTeleport2() //Karakterin baktýðýo yönde nesneyi oluþtur.
+    {
+        Vector3 spawnPosition = transform.position + transform.forward * distance;
+        Instantiate(teleportPrefabs[1], spawnPosition, Quaternion.identity);
     }
 }
 

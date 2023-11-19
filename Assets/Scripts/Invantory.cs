@@ -10,7 +10,7 @@ public class Invantory : MonoBehaviour
     private List<GameObject> inventoryPanelList = new List<GameObject>();
 
     private TakeItem item;
-    int counter = 0;
+    public int counter = 0;
 
     private bool isInventoryOpen = false;
 
@@ -44,6 +44,7 @@ public class Invantory : MonoBehaviour
         GameObject inventorySlot = inventoryPanelList[counter]; //0.Paneli alýr
         Image inventoryImage = inventorySlot.transform.GetChild(0).GetComponent<Image>(); // Panelin çocuk nesnesi olan Image bileþenini alýn
         Image itemImage = item.currentItem.GetComponent<Image>();
+
         inventoryImage.sprite = itemImage.sprite;
         counter++;
 

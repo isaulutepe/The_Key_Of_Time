@@ -6,26 +6,22 @@ using UnityEngine;
 public class Teleportation : MonoBehaviour
 {
 
+    //B ye gönder.
     GameObject player;
-    [SerializeField] private Vector3 destinationPos;
+    [SerializeField] public Vector3 destinationPos;
     float dissolveAmount = 0;
+    public GameObject spawnPointB;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        destinationPos = new Vector3(2, 2, 2);
+        destinationPos = spawnPointB.transform.position;   //Baþlangýçta B ye gidecek.
     }
 
-    private void Update()
-    {
-        Debug.Log(player);
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("ýþýnlanma baþladý");
-            player.GetComponent<MovePlayer>().enabled = false;
             teleportation();
         }
     }
@@ -52,6 +48,7 @@ public class Teleportation : MonoBehaviour
     }
     IEnumerator AppearMaterial()
     {
+   
         while (dissolveAmount > 0)
         {
             dissolveAmount = 0;// Bu deðeri ayarlayarak görünme hýzýný kontrol edebilirsiniz.
@@ -63,9 +60,5 @@ public class Teleportation : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(AppearMaterial());
-        player.GetComponent<MovePlayer>().enabled = true;
-
     }
-
-
 }

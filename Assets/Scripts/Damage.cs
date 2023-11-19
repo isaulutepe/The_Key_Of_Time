@@ -1,52 +1,59 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Damage : MonoBehaviour
 {
-
-    private float health = 100f;
-    private float hit = 20f;
+    private int maxhealth = 100;
+    public int currentHealth;
     private GameManager manager;
+    private bool isDead = false; //yaþýyor.
     private void Awake()
     {
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    bool isDamage = false; //Hasar alýyor mu kontrolü için.
+    public HealthBar healthBar;
+
+    private void Start()
+    {
+        currentHealth = maxhealth;
+        healthBar.SetMaxHealth(maxhealth);
+        Debug.Log(manager);
+    }
 
     private void Update()
     {
-        if (isDamage) //Hasar alýyor.
+        Debug.Log(maxhealth);
+        if (Input.GetKeyUp(KeyCode.Z))
         {
-            DownHealth();
-            Debug.Log("Can Durumu : " + health);
+            TakeDamage(20);
         }
-        if (health <= 0)
+        if (maxhealth == 0)
         {
-            manager.isDead = true; //Öldü
+            isDead = true;
+        }
+        if (isDead)
+        {
+            manager.isDead = true; //GameManagerda karakteri öldür.
         }
     }
-    private void OnTriggerEnter(Collider other) //Düþman collider içinde.
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("enemy"))
         {
-            isDamage = true;
+            TakeDamage(20);
         }
-    }
-    private void OnTriggerExit(Collider other) //Düþman colldier içinden çýktý.
-    {
-        if (other.gameObject.CompareTag("enemy"))
-        {
-            isDamage = false;
-        }
-    }
 
-    void DownHealth() //Caný azalt
+    }
+    void TakeDamage(int damage)
     {
-        if (health > 0)
+        if (maxhealth > 0)
         {
-            health = health - hit;
-            //Bar deðeri azaltýlacak
+            currentHealth -= damage;
+            maxhealth -= damage;
+            healthBar.SetHealth(currentHealth);
         }
+
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Attack : MonoBehaviour
 {
@@ -10,9 +11,14 @@ public class Attack : MonoBehaviour
     GameObject bullet = null;
     private void Update()
     {
-        if (Input.GetMouseButton(0)) //sol týk ateþ edecek
+        if (Input.GetMouseButtonDown(0))
         {
-            attack();
+            // Sol fare düðmesine týklama anýnda çalýþacak kod buraya gelir
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                // Eðer týklanan nokta bir UI elemanýnýn üzerinde deðilse, ateþ fonksiyonunu çaðýr
+                attack();
+            }
         }
     }
     void attack()

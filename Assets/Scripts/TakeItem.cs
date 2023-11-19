@@ -14,7 +14,7 @@ public class TakeItem : MonoBehaviour
 
     private void Awake()
     {
-        invantory=GameObject.Find("Player").GetComponent<Invantory>();
+        invantory = GameObject.Find("Player").GetComponent<Invantory>();
     }
     private void Update()
     {

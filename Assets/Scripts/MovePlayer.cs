@@ -16,6 +16,11 @@ public class MovePlayer : MonoBehaviour
     public bool isMove = false;
     [SerializeField] private Animator animator;
     public Camera mainCamera;
+    private AudioSource audioSource;
+    [SerializeField] private AudioSource Jumpaudio;
+    [SerializeField] private AudioSource walkpaudio;
+
+    public Teleportation teleportation; //Destination deðiþtirmek için.
     private void Awake()
     {
         rg = GetComponent<Rigidbody>();
@@ -26,6 +31,7 @@ public class MovePlayer : MonoBehaviour
         movePlayer();
         if (jump)
         {
+            Jumpaudio.Play();
             Debug.Log("Zýplanýyor.");
             rg.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
             jump = false;
@@ -63,6 +69,7 @@ public class MovePlayer : MonoBehaviour
             isGround = true;
         }
     }
+
     private void movePlayer()
     {
         Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -77,6 +84,7 @@ public class MovePlayer : MonoBehaviour
             rotation.x = 0; // X ekseni etrafýnda dönüþü sýfýrla
             rotation.z = 0; // Z ekseni etrafýnda dönüþü sýfýrla
             transform.rotation = rotation;
+            walkpaudio.Play();
             isMove = true;
         }
         if (moveDirection == Vector3.zero)
